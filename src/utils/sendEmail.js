@@ -20,9 +20,13 @@ const sendOTP = async (email, subject, message) => {
         };
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                res.send({ emil: email, error: error, success: false });
+                res.send({
+                    emil: mailOptions.to,
+                    error: error,
+                    success: false,
+                });
             } else {
-                res.send({ emil: email, success: true });
+                res.send({ emil: mailOptions.to, success: true });
             }
         });
     } catch (error) {
@@ -38,6 +42,7 @@ const sendEmail = async (email = [], subject, message) => {
                 to: element,
                 subject: subject,
                 text: message,
+                attachments: [{}],
             };
             transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
